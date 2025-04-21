@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Page</title>
+  <style>
+    body {
+        background-color: rgb(156, 156, 156);
+        font-family: Arial, Helvetica, sans-serif;
+    }
+</style>
+</head>
+<body>
+  <h1 id="info">Loading...</h1>
+  <script>
+    // This gets replaced dynamically
+    document.getElementById("info").innerText = "ID from URL: {{id}}";
+  </script>
+</body>
+</html>
