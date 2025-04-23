@@ -4,28 +4,95 @@
         <title>Home</title>
         <style>
             body {
-                background-color: rgb(156, 156, 156);
-                font-family: Arial, Helvetica, sans-serif;
+                margin: 0;
+                min-height: 100vh;
+                background: #1c1e21;
+                font-family: sans-serif;
+                color: white;
             }
+ 
             ul {
+                display: flex;
+                flex-wrap: wrap;
                 list-style: none;
                 padding: 0;
+                justify-content: flex-start;
+                max-width: 1200px; /* opcional: controla quantos cabem por linha */
+                margin: 0 auto;
+                padding: 20px;
+                margin-top: 120px;
             }
 
             li {
-                background-color: #f0f0f0;
-                color: black;
+                display: flex;
+                background-color: #00000068;
+                color: rgb(255, 255, 255);
                 margin: 8px 0;
                 padding: 10px;
-                border-radius: 6px;
-                box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                box-shadow: 0 0 4px rgba(0, 0, 0, 0);
+                height: 235px;
+                width: 235px;
+                margin-left: 20px;
+                margin-top: 20px;
+                justify-content: center;
+                align-items: flex-end;
+                font-size: 1.5em;
+                box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.3);
+                transition: opacity 0.5s ease, transform 0.3s ease, box-shadow 0.2s ease;
             }
+            li:hover { 
+                box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.6);
+                transform: scale(1.02);
+                transition: transform 0.3s ease, box-shadow 0.2s ease;
+                cursor: pointer;
+            }
+            
             a {
                 text-decoration: none;
+            }
+            #myList {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                
+            }
+            img {
+                position: absolute;
+                border-radius: 8px;
+                display: flex;
+                width: 235px;
+                height: 190px;
+                object-fit: cover;
+                margin-bottom: 45px;
             }
         </style>
     </header>
     <body>
         <ul id="myList">{{id}}</ul>
     </body>
+    <script>
+            // Função que será chamada quando o item estiver visível na tela
+            const loadItem = (entry, observer) => {
+                const item = entry.target;
+                if (entry.isIntersecting) {
+                    item.style.opacity = 1; // Faz o item aparecer
+                    item.setAttribute('data-loaded', 'true');
+                    observer.unobserve(item); // Parar de observar esse item
+                }
+            };
+
+            // Configura o Intersection Observer
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => loadItem(entry, observer));
+            }, { threshold: 0.1 }); // 0.1 significa que 10% do item precisa ser visível
+
+            // Selecione todos os itens da lista
+            document.querySelectorAll('li').forEach(item => {
+                // Iniciar com os itens invisíveis
+                item.style.opacity = 0;
+                observer.observe(item); // Começar a observar o item
+            });
+
+    </script>
 </html>

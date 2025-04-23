@@ -14,7 +14,12 @@ app.get('/', (req: Request, res: Response) => {
       const configFile = fs.readFileSync(`./model/${file}/config.json`, 'utf8');
       const configFileJson = JSON.parse(configFile);
 
-      return `<a href="/model/${file}"><li>${configFileJson.name}</li></a>`;
+      return `<a href="/model/${file}">
+        <li  data-loaded="false">
+          <img src="http://localhost:3000/image/${file}"/>
+          ${configFileJson.name}
+        </li>
+      </a>`;
     }).join('\n');
 
     const pageHtml = path.join(__dirname, '../public/index.html');
@@ -40,6 +45,16 @@ app.get('/model/:id', (req, res) => {
     res.send(page);
   });
 });
+
+
+app.get('/image/:id', (req: Request, res: Response) => {
+  const id = req.params.id;
+  const imagePath = path.join(__dirname, `../model/${id}/img.jpg`);
+  res.sendFile(imagePath);
+});
+
+
+
 
 /*
 app.get('/dow', (req, res) => {
